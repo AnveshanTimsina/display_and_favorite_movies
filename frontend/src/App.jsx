@@ -1,14 +1,13 @@
-import './App.css'
+import './App.css';
 import {Routes, Route} from 'react-router-dom';
-import Home from './pages/Home.jsx'
-import Favorites from './pages/Favorites.jsx'
-import Navbar from './components/Navbar.jsx'
+import Home from './pages/Home.jsx';
+import Favorites from './pages/Favorites.jsx';
+import NavBar from './components/NavBar.jsx';
 
 function App() {
-
   return (
     <div>
-      <Navbar/>
+      <NavBar/>
       <main className="main-content">
         <Routes>
           <Route path="/" element={<Home/>} />
