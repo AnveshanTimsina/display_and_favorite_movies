@@ -1,16 +1,91 @@
-# React + Vite
+## Movie Explorer (React + Vite)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Movie Explorer is a lightweight React app that lets you browse popular movies, search titles, and save favorites locally. It uses The Movie Database (TMDB) API for data and persists favorites in the browser via localStorage.
 
-Currently, two official plugins are available:
+### Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Popular movies on load, powered by TMDB
+- Search with debuggable results filtering on the client
+- Add/remove favorites with persistence in localStorage
+- Responsive layout with poster cards and hover favorite control
+- Client-side routing for Home and Favorites views
 
-## React Compiler
+### Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- React 19, React Router 7
+- Vite 7 for dev/build tooling
+- ESLint (React + hooks rules)
 
-## Expanding the ESLint configuration
+### Getting Started
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+1. Prerequisites: Node 18+ and npm.
+2. Install dependencies:
+
+```bash
+npm install
+```
+
+3. Create an env file (see below) with your TMDB key.
+4. Run the dev server:
+
+```bash
+npm run dev
+```
+
+5. Build for production:
+
+```bash
+npm run build
+```
+
+### Environment Variables
+
+Create `.env.local` in the project root with your TMDB API key:
+
+```bash
+VITE_API_KEY=your_tmdb_api_key
+```
+
+Vite exposes vars prefixed with `VITE_`, which the API client reads when calling TMDB.
+
+### Scripts
+
+- `npm run dev` – start Vite dev server
+- `npm run build` – production build
+- `npm run preview` – serve the built app locally
+- `npm run lint` – run ESLint
+
+### Project Structure
+
+```text
+frontend/
+	src/
+		App.jsx              # Routes and layout shell
+		main.jsx             # Entry point with BrowserRouter
+		pages/
+			Home.jsx           # Popular movies + search
+			Favorites.jsx      # Favorited movies grid
+		components/
+			NavBar.jsx         # Navigation links
+			MovieCard.jsx      # Poster card with favorite toggle
+		contexts/
+			MovieContext.jsx   # Favorites state + localStorage sync
+			MovieContextDef.js # Context definition
+			useMovieContext.js # Convenience hook
+		services/
+			api.js             # TMDB fetch helpers
+		css/                 # Page and component styles
+```
+
+### How It Works
+
+- Data: `getPopularMovies` and `searchMovies` in [src/services/api.js](src/services/api.js) call TMDB using the `VITE_API_KEY` env variable.
+- Favorites: `MovieProvider` in [src/contexts/MovieContext.jsx](src/contexts/MovieContext.jsx) manages favorites, persists to localStorage, and exposes helper methods via [src/contexts/useMovieContext.js](src/contexts/useMovieContext.js).
+- UI: `Home` renders search + results, `Favorites` renders saved items, `MovieCard` handles the heart toggle overlay.
+
+### Notes and Future Ideas
+
+- Add pagination or infinite scroll for search results.
+- Debounce the search input and surface API errors inline.
+- Include movie details (synopsis, rating) and a detail page.
+- Add basic tests and CI lint checks.
