@@ -67,11 +67,11 @@ function Home(){
         {loading ? 
             (<div className="loading">Loading...</div>):
             (<div className="movies-grid">
-                {movies.map(
-                    (movie) => 
-                        movie.title.toLowerCase().startsWith(searchQuery) &&
-                        (<MovieCard movie={movie} key={movie.id}/>)
-                )}
+                {movies.map((movie) => {
+                    const title = (movie.title || '').toLowerCase()
+                    const query = searchQuery.toLowerCase()
+                    return title.startsWith(query) && (<MovieCard movie={movie} key={movie.id}/>)
+                })}
             </div>)
         }
         </div>
